@@ -3,7 +3,7 @@ import psycopg2
 #connect to DB
 con = psycopg2.connect(
     host = "localhost",
-    database = "testServer",
+    database = "postgres",
     user = "postgres",
     password = "password",
     port = "5432")
@@ -11,7 +11,7 @@ con = psycopg2.connect(
 #cursor
 cur = con.cursor()
 
-createTable_USDJPY = ("CREATE TABLE USDJPY (dateTime datetime, open DOUBLE, close DOUBLE, high DOUBLE, low DOUBLE)")
+createTable_USDJPY = ("CREATE TABLE USDJPY (dateTime TIMESTAMP AS PRIMARY KEY, open DOUBLE, close DOUBLE, high DOUBLE, low DOUBLE)")
 
 cur.execute(createTable_USDJPY)
 
