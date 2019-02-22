@@ -11,7 +11,7 @@ con = psycopg2.connect(
 #cursor
 cur = con.cursor()
 
-createTable_USDJPY = ("CREATE TABLE USDJPY (dateTime TIMESTAMP AS PRIMARY KEY, open DOUBLE, close DOUBLE, high DOUBLE, low DOUBLE)")
+createTable_USDJPY = ("CREATE TABLE USDJPY (dateTime TIMESTAMP PRIMARY KEY, open DOUBLE, close DOUBLE, high DOUBLE, low DOUBLE)")
 
 cur.execute(createTable_USDJPY)
 
