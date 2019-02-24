@@ -20,13 +20,13 @@ con = psycopg2.connect(
 
 #cursor
 cur = con.cursor()
-createTable_USDJPY = ("CREATE TABLE USD_JPY (dateTime timestamp without time zone, open numeric NOT NULL, close numeric NOT NULL, high numeric NOT NULL, low numeric NOT NULL, bid numeric NOT NULL, ask numeric NOT NULL, PRIMARY KEY (dateTime))")
-createTable_EURUSD = ("CREATE TABLE EUR_USD (dateTime timestamp without time zone, open numeric NOT NULL, close numeric NOT NULL, high numeric NOT NULL, low numeric NOT NULL, bid numeric NOT NULL, ask numeric NOT NULL, PRIMARY KEY (dateTime))")
-createTable_GBPUSD = ("CREATE TABLE GBP_USD (dateTime timestamp without time zone, open numeric NOT NULL, close numeric NOT NULL, high numeric NOT NULL, low numeric NOT NULL, bid numeric NOT NULL, ask numeric NOT NULL, PRIMARY KEY (dateTime))")
-createTable_AUDUSD = ("CREATE TABLE AUD_USD (dateTime timestamp without time zone, open numeric NOT NULL, close numeric NOT NULL, high numeric NOT NULL, low numeric NOT NULL, bid numeric NOT NULL, ask numeric NOT NULL, PRIMARY KEY (dateTime))")
-createTable_USDCAD = ("CREATE TABLE USD_CAD (dateTime timestamp without time zone, open numeric NOT NULL, close numeric NOT NULL, high numeric NOT NULL, low numeric NOT NULL, bid numeric NOT NULL, ask numeric NOT NULL, PRIMARY KEY (dateTime))")
-createTable_USDCHF = ("CREATE TABLE USD_CHF (dateTime timestamp without time zone, open numeric NOT NULL, close numeric NOT NULL, high numeric NOT NULL, low numeric NOT NULL, bid numeric NOT NULL, ask numeric NOT NULL, PRIMARY KEY (dateTime))")
-createTable_NZDUSD = ("CREATE TABLE NZD_USD (dateTime timestamp without time zone, open numeric NOT NULL, close numeric NOT NULL, high numeric NOT NULL, low numeric NOT NULL, bid numeric NOT NULL, ask numeric NOT NULL, PRIMARY KEY (dateTime))")
+createTable_USDJPY = ("CREATE TABLE USD_JPY (date timestamp without time zone, bidopen numeric NOT NULL, bidclose numeric NOT NULL, bidhigh numeric NOT NULL, bidlow numeric NOT NULL, askopen numeric NOT NULL, askclose numeric NOT NULL, askhigh numeric NOT NULL, asklow numeric NOT NULL, PRIMARY KEY (date))")
+createTable_EURUSD = ("CREATE TABLE EUR_USD (date timestamp without time zone, bidopen numeric NOT NULL, bidclose numeric NOT NULL, bidhigh numeric NOT NULL, bidlow numeric NOT NULL, askopen numeric NOT NULL, askclose numeric NOT NULL, askhigh numeric NOT NULL, asklow numeric NOT NULL, PRIMARY KEY (date))")
+createTable_GBPUSD = ("CREATE TABLE GBP_USD (date timestamp without time zone, bidopen numeric NOT NULL, bidclose numeric NOT NULL, bidhigh numeric NOT NULL, bidlow numeric NOT NULL, askopen numeric NOT NULL, askclose numeric NOT NULL, askhigh numeric NOT NULL, asklow numeric NOT NULL, PRIMARY KEY (date))")
+createTable_AUDUSD = ("CREATE TABLE AUD_USD (date timestamp without time zone, bidopen numeric NOT NULL, bidclose numeric NOT NULL, bidhigh numeric NOT NULL, bidlow numeric NOT NULL, askopen numeric NOT NULL, askclose numeric NOT NULL, askhigh numeric NOT NULL, asklow numeric NOT NULL, PRIMARY KEY (date))")
+createTable_USDCAD = ("CREATE TABLE USD_CAD (date timestamp without time zone, bidopen numeric NOT NULL, bidclose numeric NOT NULL, bidhigh numeric NOT NULL, bidlow numeric NOT NULL, askopen numeric NOT NULL, askclose numeric NOT NULL, askhigh numeric NOT NULL, asklow numeric NOT NULL, PRIMARY KEY (date))")
+createTable_USDCHF = ("CREATE TABLE USD_CHF (date timestamp without time zone, bidopen numeric NOT NULL, bidclose numeric NOT NULL, bidhigh numeric NOT NULL, bidlow numeric NOT NULL, askopen numeric NOT NULL, askclose numeric NOT NULL, askhigh numeric NOT NULL, asklow numeric NOT NULL, PRIMARY KEY (date))")
+createTable_NZDUSD = ("CREATE TABLE NZD_USD (date timestamp without time zone, bidopen numeric NOT NULL, bidclose numeric NOT NULL, bidhigh numeric NOT NULL, bidlow numeric NOT NULL, askopen numeric NOT NULL, askclose numeric NOT NULL, askhigh numeric NOT NULL, asklow numeric NOT NULL, PRIMARY KEY (date))")
 #bid,ask,high,low,open,close,timestamp
 try:
     cur.execute(createTable_USDJPY)
