@@ -37,11 +37,7 @@ for key, value in tradingPairs.items():
     #print(data.head())
 
     for index, row in data.iterrows():
-        print(type(index.to_pydatetime()))
-        #insert = "INSERT INTO %s (date, bidopen, bidclose, bidhigh, bidlow, askopen, askclose, askhigh, asklow) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
         insert = "INSERT INTO {} (date, bidopen, bidclose, bidhigh, bidlow, askopen, askclose, askhigh, asklow) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
-        print(insert)
-        #cur.execute(insert,(value,index.to_pydatetime(),row['bidopen'],row['bidclose'],row['bidhigh'],row['bidlow'],row['askopen'],row['askclose'],row['askhigh'],row['asklow'],))
         cur.execute(insert.format(value),(index.to_pydatetime(),row['bidopen'],row['bidclose'],row['bidhigh'],row['bidlow'],row['askopen'],row['askclose'],row['askhigh'],row['asklow'],))
         createDBCon.con.commit()
         break
