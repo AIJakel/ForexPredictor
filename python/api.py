@@ -35,7 +35,7 @@ tradingPairs = {
 }
 
 for key, value in tradingPairs.items():
-    data = con.get_candles(key, period='H1', number=10)
+    data = con.get_candles(key, period='D1', number=3650)
     #print(data.head())
     """    host = "localhost",
     database = "postgres",
