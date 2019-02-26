@@ -25,3 +25,5 @@ yarn-error.log*
 \.vscode/
 
 python/tokens\.py
+
+python/__pycache__/
