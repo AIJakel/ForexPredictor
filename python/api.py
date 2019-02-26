@@ -6,14 +6,13 @@ from sqlalchemy import create_engine
 import io
 import tokens
 import constants
-import createDBCon
 
 
 con = fxcmpy.fxcmpy(access_token=tokens.FXCM_API_KEY, log_level='error', server='demo')
-#print(con.get_instruments())
 
 data = pandas.DataFrame()
-db = createDBCon.DATABASES['local']
+db = constants.DATABASES['local']
+
 for key, value in constants.TRADED_PAIRS.items():
     data = con.get_candles(key, period='D1', number=3650)
 
