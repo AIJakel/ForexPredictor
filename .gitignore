@@ -25,3 +25,7 @@ yarn-error.log*
 \.vscode/
 
 python/tokens\.py
+
+python/__pycache__/
+*.pyc
+python/__pycache__/createDBCon.cpython-37.pyc
