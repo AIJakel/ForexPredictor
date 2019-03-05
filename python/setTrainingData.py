@@ -31,7 +31,7 @@ df['high'] = data_USDJPY[['bidhigh', 'askhigh']].mean(axis=1)
 df['low'] = data_USDJPY[['bidlow', 'asklow']].mean(axis=1)
 print(df.head())
 
-df2 = pd.DataFrame(columns=["o5","c5","h5","l5","o4","c4","h4","l4","o3","c3","h3","l3","o2","c2","h2","l2","o1","c1","h1","l1","actual_close"])
+df2 = pd.DataFrame(columns=["o5","c5","h5","l5","o4","c4","h4","l4","o3","c3","h3","l3","o2","c2","h2","l2","o1","c1","h1","l1","actual_open","actual_close","actual_high","actual_low"])
 print("")
 print("")
 print("")
@@ -46,7 +46,7 @@ for index, row in df.iterrows():
             df.loc[index-3,"open"],df.loc[index-3,"close"],df.loc[index-3,"high"],df.loc[index-3,"low"],
             df.loc[index-2,"open"],df.loc[index-2,"close"],df.loc[index-2,"high"],df.loc[index-2,"low"],
             df.loc[index-1,"open"],df.loc[index-1,"close"],df.loc[index-1,"high"],df.loc[index-1,"low"],
-            df.loc[index,"close"]
+            df.loc[index,"open"],df.loc[index,"close"],df.loc[index,"high"],df.loc[index,"low"]
         ]
     
 print(df2)
