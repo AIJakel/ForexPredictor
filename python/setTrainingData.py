@@ -22,3 +22,12 @@ data_USDJPY = pd.read_sql_table('usd_jpy',engine)
 #data_USDCHF = pd.read_sql_table('usd_chf',engine)
 #data_NZDUSD = pd.read_sql_table('nzd_usd',engine)
 
+print(data_USDJPY.head())
+df = pd.DataFrame
+df = data_USDJPY[['date']].copy()
+df['open'] =  data_USDJPY[['bidopen', 'askopen']].mean(axis=1)
+df['close'] = data_USDJPY[['bidclose', 'askclose']].mean(axis=1)
+df['high'] = data_USDJPY[['bidhigh', 'askhigh']].mean(axis=1)
+df['low'] = data_USDJPY[['bidlow', 'asklow']].mean(axis=1)
+print(df.head())
+print(df.groupby('value')['tempx'].apply(' '.join).reset_index())
