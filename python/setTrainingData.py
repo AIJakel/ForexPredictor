@@ -1,6 +1,7 @@
 import pandas as pd
 import constants
 from sqlalchemy import create_engine
+import tensorflow as tf
 
 db = constants.DATABASES['local']
 
@@ -48,8 +49,9 @@ for index, row in df.iterrows():
             df.loc[index-1,"open"],df.loc[index-1,"close"],df.loc[index-1,"high"],df.loc[index-1,"low"],
             df.loc[index,"open"],df.loc[index,"close"],df.loc[index,"high"],df.loc[index,"low"]
         ]
+        break
     
 print(df2)
 
-    
-
+mnist = tf.keras.datasets.mnist
+print(mnist)
