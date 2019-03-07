@@ -3,6 +3,7 @@ import constants
 from sqlalchemy import create_engine
 import tensorflow as tf
 import numpy as np
+from sklearn.preprocessing import StandardScaler
 
 db = constants.DATABASES['local']
 
@@ -45,17 +46,27 @@ for index, row in df_USDJPY.iterrows():
             df_USDJPY.loc[index-1,"open"],df_USDJPY.loc[index-1,"close"],df_USDJPY.loc[index-1,"high"],df_USDJPY.loc[index-1,"low"],
             df_USDJPY.loc[index,"open"],df_USDJPY.loc[index,"close"],df_USDJPY.loc[index,"high"],df_USDJPY.loc[index,"low"]
         ]
-    if index == 100:
-        break
 
 msk = np.random.rand(len(transformedDataSet_USDJPY)) < 0.8
 x_train_USDJPY = transformedDataSet_USDJPY[msk]
 x_test_USDJPY = transformedDataSet_USDJPY[~msk]
 
-y_train_USDJPY = x_train_USDJPY[["actual_open","actual_close","actual_high","actual_low"]].to_records(index=False)
-y_test_USDJPY = x_test_USDJPY[["actual_open","actual_close","actual_high","actual_low"]].to_records(index=False)
-x_train_USDJPY = x_train_USDJPY[["o5","c5","h5","l5","o4","c4","h4","l4","o3","c3","h3","l3","o2","c2","h2","l2","o1","c1","h1","l1"]].to_records(index=False)
-x_test_USDJPY =x_test_USDJPY[["o5","c5","h5","l5","o4","c4","h4","l4","o3","c3","h3","l3","o2","c2","h2","l2","o1","c1","h1","l1"]].to_records(index=False)
+y_train_USDJPY = x_train_USDJPY[["actual_open","actual_close","actual_high","actual_low"]].reset_index(drop=True)
+#y_train_USDJPY = y_train_USDJPY[["actual_open"]]
+y_test_USDJPY = x_test_USDJPY[["actual_open","actual_close","actual_high","actual_low"]].reset_index(drop=True)
+#y_test_USDJPY = y_test_USDJPY [["actual_open"]]
+x_train_USDJPY = x_train_USDJPY[["o5","c5","h5","l5","o4","c4","h4","l4","o3","c3","h3","l3","o2","c2","h2","l2","o1","c1","h1","l1"]].reset_index(drop=True)
+x_test_USDJPY =x_test_USDJPY[["o5","c5","h5","l5","o4","c4","h4","l4","o3","c3","h3","l3","o2","c2","h2","l2","o1","c1","h1","l1"]].reset_index(drop=True)
+
+
+scaler = StandardScaler()
+scaler.fit(x_train_USDJPY)
+x_train_USDJPY = scaler.transform(x_train_USDJPY)
+x_test_USDJPY = scaler.transform(x_test_USDJPY)
+
+scaler.fit(y_train_USDJPY)
+y_train_USDJPY = scaler.transform(y_train_USDJPY)
+y_test_USDJPY = scaler.transform(y_test_USDJPY)
 
 model = tf.keras.models.Sequential()
 model.add(tf.keras.layers.Dense(128, activation=tf.nn.relu))
@@ -64,7 +75,12 @@ model.add(tf.keras.layers.Dense(128, activation=tf.nn.relu))
 model.add(tf.keras.layers.Dense(4, activation=tf.nn.relu))
 
 model.compile(optimizer='adam',
-                loss='sparse_categorical_crossentropy',
+                loss='mean_squared_error',
                 metrics =['accuracy'])
 
 model.fit(x_train_USDJPY, y_train_USDJPY, epochs=10)
+
+val_loss, val_acc = model.evaluate(x_test_USDJPY, y_test_USDJPY)
+print(val_loss, val_acc)
+
+prediction = model.predict(x_test_USDJPY,verbose=1)
