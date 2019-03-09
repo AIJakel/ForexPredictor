@@ -4,6 +4,7 @@ from sqlalchemy import create_engine
 import tensorflow as tf
 import numpy as np
 from sklearn.preprocessing import StandardScaler
+import matplotlib.pyplot as plt
 
 db = constants.DATABASES['local']
 
@@ -58,7 +59,6 @@ y_test_USDJPY = x_test_USDJPY[["actual_open","actual_close","actual_high","actua
 x_train_USDJPY = x_train_USDJPY[["o5","c5","h5","l5","o4","c4","h4","l4","o3","c3","h3","l3","o2","c2","h2","l2","o1","c1","h1","l1"]].reset_index(drop=True)
 x_test_USDJPY =x_test_USDJPY[["o5","c5","h5","l5","o4","c4","h4","l4","o3","c3","h3","l3","o2","c2","h2","l2","o1","c1","h1","l1"]].reset_index(drop=True)
 
-
 scaler = StandardScaler()
 scaler.fit(x_train_USDJPY)
 x_train_USDJPY = scaler.transform(x_train_USDJPY)
@@ -84,3 +84,6 @@ val_loss, val_acc = model.evaluate(x_test_USDJPY, y_test_USDJPY)
 print(val_loss, val_acc)
 
 prediction = model.predict(x_test_USDJPY,verbose=1)
+#dataset = pd.DataFrame({'Column1':prediction[:,0],'Column2':prediction[:,1]})
+prediction = pd.DataFrame(data=prediction)
+print(prediction.head())
