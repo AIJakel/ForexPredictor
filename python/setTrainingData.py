@@ -59,14 +59,19 @@ y_test_USDJPY = x_test_USDJPY[["actual_open","actual_close","actual_high","actua
 x_train_USDJPY = x_train_USDJPY[["o5","c5","h5","l5","o4","c4","h4","l4","o3","c3","h3","l3","o2","c2","h2","l2","o1","c1","h1","l1"]].reset_index(drop=True)
 x_test_USDJPY =x_test_USDJPY[["o5","c5","h5","l5","o4","c4","h4","l4","o3","c3","h3","l3","o2","c2","h2","l2","o1","c1","h1","l1"]].reset_index(drop=True)
 
-scaler = StandardScaler()
-scaler.fit(x_train_USDJPY)
-x_train_USDJPY = scaler.transform(x_train_USDJPY)
-x_test_USDJPY = scaler.transform(x_test_USDJPY)
+# scaler = StandardScaler()
+# scaler.fit(x_train_USDJPY)
+x_pred2 = y_test_USDJPY
+x_train_USDJPY = x_train_USDJPY.values
+x_test_USDJPY = x_test_USDJPY.values
+# x_train_USDJPY = scaler.transform(x_train_USDJPY)
+# x_test_USDJPY = scaler.transform(x_test_USDJPY)
 
-scaler.fit(y_train_USDJPY)
-y_train_USDJPY = scaler.transform(y_train_USDJPY)
-y_test_USDJPY = scaler.transform(y_test_USDJPY)
+# scaler.fit(y_train_USDJPY)
+y_train_USDJPY = y_train_USDJPY.values
+y_test_USDJPY = y_test_USDJPY.values
+# y_train_USDJPY = scaler.transform(y_train_USDJPY)
+# y_test_USDJPY = scaler.transform(y_test_USDJPY)
 
 model = tf.keras.models.Sequential()
 model.add(tf.keras.layers.Dense(128, activation=tf.nn.relu))
@@ -86,4 +91,31 @@ print(val_loss, val_acc)
 prediction = model.predict(x_test_USDJPY,verbose=1)
 #dataset = pd.DataFrame({'Column1':prediction[:,0],'Column2':prediction[:,1]})
 prediction = pd.DataFrame(data=prediction)
-print(prediction.head())
+#print(prediction.head())
+
+
+with pd.option_context('display.max_rows', None, 'display.max_columns', None):
+    print(prediction)
+    print()
+    print()
+    print()
+    print()
+    print()
+    print()
+    print(x_pred2)
+
+
+prediction.plot()
+plt.show()
+
+x_pred2.plot()
+plt.show()
+
+
+# fig, ax = plt.subplots()
+# ax2 = ax.twinx()
+
+# prediction.plot(ax=ax)
+# x_pred2.plot(ax=ax2, ls="--")
+
+# plt.show()
