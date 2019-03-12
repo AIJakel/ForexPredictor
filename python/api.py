@@ -13,7 +13,7 @@ data = pandas.DataFrame()
 db = constants.DATABASES['local']
 print("Writing data to tables...")
 for key, value in constants.TRADED_PAIRS.items():
-    data = con.get_candles(key, period='D1', number=3650)
+    data = con.get_candles(key, period='H1', number=10000)
 
     engine_string = "postgresql+psycopg2://{user}:{password}@{host}:{port}/{database}".format(
         user =      db['USER'],
