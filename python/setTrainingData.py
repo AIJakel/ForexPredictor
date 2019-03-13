@@ -11,7 +11,7 @@ import constants
 
 # creates the tensorboard log
 NAME = "test{}".format(int(time.time())) #TODO change to class and x is an input var
-tensorboard = TensorBoard(log_dir="D:/tensorboard_log/{}".format(NAME))
+tensorboard = TensorBoard(log_dir="tensorboard_log/{}".format(NAME))
 
 #connect to db
 db = constants.DATABASES['local']

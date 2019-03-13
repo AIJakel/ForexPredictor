@@ -30,7 +30,7 @@ def scale_linear_bycolumn(rawpoints, high=1.0, low=0.0):
 
 # creates the tensorboard log
 NAME = "test{}".format(int(time.time())) #TODO change to class and x is an input var
-tensorboard = TensorBoard(log_dir="D:/tensorboard_log/{}".format(NAME))
+tensorboard = TensorBoard(log_dir="tensorboard_log/{}".format(NAME))
 
 #connect to db
 db = constants.DATABASES['local']
@@ -93,9 +93,9 @@ x_test = scale_linear_bycolumn(x_test)
 
 #GOOD TILL HERE!!!
 def train_model(model, train, test):
-
+    opt = tf.train.AdamOptimizer(learning_rate=0.002)
     model.compile(loss='mean_absolute_percentage_error',
-                  optimizer='adam',
+                  optimizer=opt,
                   metrics=['accuracy'])
 #batch_size=batch_size,
     t = now()
