@@ -111,6 +111,18 @@ def train_model(model, train, test):
     print('Test score:', score[0])
     print('Test accuracy:', score[1])
 
+    # prediction.plot()
+    # plt.show()
+
+    # x_pred2.plot()
+    # plt.show()
+
+    prediction = pd.DataFrame(data=prediction)
+    fig, ax = plt.subplots()
+    ax2 = ax.twinx()
+    prediction.plot(ax=ax)
+    x_pred2.plot(ax=ax2, ls="--")
+    plt.show()
 
 # define two groups of layers: feature (convolutions) and classification (dense)
 feature_layer1 = [
