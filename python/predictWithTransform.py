@@ -27,14 +27,12 @@ engine_string = "postgresql+psycopg2://{user}:{password}@{host}:{port}/{database
     database =  db['NAME']
 )
 model = tf.keras.models.load_model('model_predictFutureCandle.model') 
+model._make_predict_function()
+
 
 def predictWithData(transformedDataSet, curr_Pair): 
-    transformedDataSet = np.array(transformedDataSet)
-    print(transformedDataSet)
-    print(transformedDataSet.shape)
-    print(type(transformedDataSet))
-
-    prediction = model.predict([transformedDataSet],verbose=0)
+    transformedDataSet = transformedDataSet.reshape(1,20)
+    prediction = model.predict([transformedDataSet])
     prediction = pd.DataFrame(data=prediction)
     
     return prediction.to_json(orient='records')
@@ -72,8 +70,10 @@ def prepareData(curr_Pair):
             
     transformedDataSet = transformedDataSet.reset_index(drop=True)
     transformedDataSet = transformedDataSet.values    
-    transformedDataSet = scale_linear_bycolumn(transformedDataSet)    
+    transformedDataSet = scale_linear_bycolumn(transformedDataSet)   
+    transformedDataSet = np.array(transformedDataSet)
+    transformedDataSet = transformedDataSet[len(transformedDataSet) - 1,] 
+    
+    prediction = predictWithData(transformedDataSet, curr_Pair)
 
-    return predictWithData(transformedDataSet, curr_Pair)
-
-prepareData("usd_jpy")
+    return prediction

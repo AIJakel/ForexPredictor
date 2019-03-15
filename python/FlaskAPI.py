@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-import operationsAPI
+import operationsAPI, predictWithTransform
 
 app = Flask(__name__)
 

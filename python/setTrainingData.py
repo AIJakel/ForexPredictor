@@ -123,10 +123,8 @@ def train_model(model, train, test):
     #plt.show()
 
 feature_layer1 = [
-    Dense(20),
-    Activation('relu'),
-    input_shape = x_train[1:]
-
+    Dense(20, input_shape=(20,)),
+    Activation('relu')
 ]
 
 feature_layer2 = [

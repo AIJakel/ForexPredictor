@@ -27,3 +27,5 @@ def getAllHistorical(curr_Pair):
 
 def getPrediction(curr_Pair):
     return predictWithTransform.prepareData(curr_Pair)
+    
+# print(getPrediction("usd_jpy"))
