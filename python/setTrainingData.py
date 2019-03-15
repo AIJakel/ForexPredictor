@@ -11,7 +11,6 @@ import constants
 from sklearn.preprocessing import normalize
 import datetime
 import keras
-from keras.datasets import mnist
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation, Flatten
 from keras.layers import Conv2D, MaxPooling2D
@@ -101,13 +100,12 @@ def train_model(model, train, test):
     model.fit(x_train, y_train,
               
               epochs=epochs,
-              verbose=1,
+              verbose=0,
               callbacks=[tensorboard],
               validation_data=(x_test, y_test))
     #print('Training time: %s' % (now() - t))
-    score = model.evaluate(x_test, y_test, verbose=2)
-    prediction = model.predict(x_test,verbose=2)
-    print(x_test)
+    score = model.evaluate(x_test, y_test, verbose=0)
+    prediction = model.predict(x_test,verbose=0)
     #print('Test score:', score[0])
     #print('Test accuracy:', score[1])
 
@@ -124,23 +122,20 @@ def train_model(model, train, test):
     x_pred2.plot(ax=ax2, ls="--")
     #plt.show()
 
-# define two groups of layers: feature (convolutions) and classification (dense)
 feature_layer1 = [
     Dense(20),
     Activation('relu'),
+    input_shape = x_train[1:]
 
 ]
 
 feature_layer2 = [
     Dense(25),
-    Activation('relu'),
-
+    Activation('relu')
 ]
 
 classification_layers = [
-    Dense(4),
-
-
+    Dense(4)
 ]
 
 # create complete model
@@ -160,4 +155,5 @@ train_model(model,
 #             (x_train, y_train),
 #             (x_test, y_test))
 
-model.save('model_predictFutureCandle')
+model.save('model_predictFutureCandle.model')
+

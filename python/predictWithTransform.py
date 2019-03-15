@@ -26,16 +26,25 @@ engine_string = "postgresql+psycopg2://{user}:{password}@{host}:{port}/{database
     port =      db['PORT'],
     database =  db['NAME']
 )
-def predictWithData(transformedDataSet, curr_Pair):
-    model = tf.keras.models.load_model('model_predictFutureCandle')  
+model = tf.keras.models.load_model('model_predictFutureCandle.model') 
+
+def predictWithData(transformedDataSet, curr_Pair): 
     transformedDataSet = np.array(transformedDataSet)
-    transformedDataSet = scaler.transform(transformedDataSet)
     print(transformedDataSet)
-    prediction = model.predict([transformedDataSet])
+    print(transformedDataSet.shape)
+    print(type(transformedDataSet))
+
+    prediction = model.predict([transformedDataSet],verbose=0)
     prediction = pd.DataFrame(data=prediction)
     
     return prediction.to_json(orient='records')
     #modelname="model_predictFutureCandle"
+
+def scale_linear_bycolumn(rawpoints, high=1.0, low=0.0):
+    mins = np.min(rawpoints, axis=0)
+    maxs = np.max(rawpoints, axis=0)
+    rng = maxs - mins
+    return high - (((high - low) * (maxs - rawpoints)) / rng)
 
 def prepareData(curr_Pair):
     #pull in the data and format it by taking the mean between the asking and bid price
@@ -52,7 +61,7 @@ def prepareData(curr_Pair):
 
     #convert the data frame into data sets for training and testing
     for index, row in df.iterrows():
-        if index == 5:
+        if index >= 5:
             transformedDataSet.loc[index-5] = [
                 df.loc[index-5,"open"],df.loc[index-5,"close"],df.loc[index-5,"high"],df.loc[index-5,"low"],
                 df.loc[index-4,"open"],df.loc[index-4,"close"],df.loc[index-4,"high"],df.loc[index-4,"low"],
@@ -61,9 +70,9 @@ def prepareData(curr_Pair):
                 df.loc[index-1,"open"],df.loc[index-1,"close"],df.loc[index-1,"high"],df.loc[index-1,"low"]
             ]         
             
-            break
-    # transformedDataSet = transformedDataSet.reset_index(drop=True)
-    # transformedDataSet = transformedDataSet.values        
+    transformedDataSet = transformedDataSet.reset_index(drop=True)
+    transformedDataSet = transformedDataSet.values    
+    transformedDataSet = scale_linear_bycolumn(transformedDataSet)    
 
     return predictWithData(transformedDataSet, curr_Pair)
 
