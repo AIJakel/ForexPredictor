@@ -2,6 +2,7 @@ import requests
 import pandas as pd
 from sqlalchemy import create_engine
 import constants
+import predictWithTransform
 
 db = constants.DATABASES['local']
 engine_string = "postgresql+psycopg2://{user}:{password}@{host}:{port}/{database}".format(
@@ -23,3 +24,6 @@ def getAllHistorical(curr_Pair):
     df['low'] = data[['bidlow', 'asklow']].mean(axis=1)
 
     return df.to_json(orient='records')
+
+def getPrediction(curr_Pair):
+    return predictWithTransform.prepareData(curr_Pair)

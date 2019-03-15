@@ -7,9 +7,9 @@ app = Flask(__name__)
 def get_AllHistorical(curr_Pair):
     return operationsAPI.getAllHistorical(curr_Pair)
 
-@app.route('/historical/<string:curr_Pair>&<string:date_Time>', methods=['GET'])
-def get_SelectHistorical(curr_Pair, date_Time):
-    return jsonify({"Status":"NOT IMPLEMENTED"})
+@app.route('/prediction/<string:curr_Pair>', methods=['GET'])
+def get_Prediction(curr_Pair):
+    return operationsAPI.getPrediction(curr_Pair)
 
 @app.route("/")
 def helloWorld():

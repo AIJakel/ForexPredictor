@@ -1,6 +1,6 @@
 from tensorflow.keras.callbacks import TensorBoard
 import tensorflow as tf
-from keras.layers import Dropout
+from keras.layers import Dropout, Activation 
 from sqlalchemy import create_engine
 from sklearn.preprocessing import StandardScaler
 import pandas as pd
@@ -8,6 +8,24 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 import constants
+from sklearn.preprocessing import normalize
+import datetime
+import keras
+from keras.datasets import mnist
+from keras.models import Sequential
+from keras.layers import Dense, Dropout, Activation, Flatten
+from keras.layers import Conv2D, MaxPooling2D
+from keras import backend as K
+
+batch_size = 128
+epochs = 20
+now = datetime.datetime.now
+
+def scale_linear_bycolumn(rawpoints, high=1.0, low=0.0):
+    mins = np.min(rawpoints, axis=0)
+    maxs = np.max(rawpoints, axis=0)
+    rng = maxs - mins
+    return high - (((high - low) * (maxs - rawpoints)) / rng)
 
 # creates the tensorboard log
 NAME = "test{}".format(int(time.time())) #TODO change to class and x is an input var
@@ -48,10 +66,6 @@ for index, row in df.iterrows():
         ]
 
 #break apart the dataframe into training and testing data frames and inputs and outputs
-print("Full data set size")
-print(len(transformedDataSet.index))
-print()
-
 msk = np.random.rand(len(transformedDataSet)) < 0.8
 x_train = transformedDataSet[msk]
 x_test = transformedDataSet[~msk]
@@ -69,30 +83,81 @@ x_test = x_test.values
 y_train = y_train.values
 y_test = y_test.values
 
-print("training size then test size")
-print(x_train.shape)
-print(x_test.shape)
+x_train = scale_linear_bycolumn(x_train)
+x_test = scale_linear_bycolumn(x_test)
 
 
-model = tf.keras.models.Sequential()
-model.add(tf.keras.layers.Dense(20, activation=tf.nn.relu))
-model.add(tf.keras.layers.Dense(25, activation=tf.nn.relu))
-model.add(tf.keras.layers.Dense(4))
-
-model.compile(optimizer='adam',
-                loss='mean_squared_error',
-                metrics =['accuracy'])
+#model.fit(x_train, y_train, epochs=20, callbacks=[tensorboard], validation_data=(x_test,y_test))
 
 
+#GOOD TILL HERE!!!
+def train_model(model, train, test):
+    opt = keras.optimizers.Adam(lr=0.002)
+    model.compile(loss='mean_absolute_percentage_error',
+                  optimizer=opt,
+                  metrics=['accuracy'])
+#batch_size=batch_size,
+    t = now()
+    model.fit(x_train, y_train,
+              
+              epochs=epochs,
+              verbose=1,
+              callbacks=[tensorboard],
+              validation_data=(x_test, y_test))
+    #print('Training time: %s' % (now() - t))
+    score = model.evaluate(x_test, y_test, verbose=2)
+    prediction = model.predict(x_test,verbose=2)
+    print(x_test)
+    #print('Test score:', score[0])
+    #print('Test accuracy:', score[1])
 
-model.fit(x_train, y_train, epochs=20, callbacks=[tensorboard], validation_data=(x_test,y_test))
+    # prediction.plot()
+    # plt.show()
 
-val_loss, val_acc = model.evaluate(x_test, y_test)
-print(val_loss, val_acc)
+    # x_pred2.plot()
+    # plt.show()
 
-prediction = model.predict(x_test,verbose=1)
-prediction = pd.DataFrame(data=prediction)
+    prediction = pd.DataFrame(data=prediction)
+    fig, ax = plt.subplots()
+    ax2 = ax.twinx()
+    prediction.plot(ax=ax)
+    x_pred2.plot(ax=ax2, ls="--")
+    #plt.show()
+
+# define two groups of layers: feature (convolutions) and classification (dense)
+feature_layer1 = [
+    Dense(20),
+    Activation('relu'),
+
+]
+
+feature_layer2 = [
+    Dense(25),
+    Activation('relu'),
+
+]
+
+classification_layers = [
+    Dense(4),
 
 
-print("prediction size")
-print(len(prediction))
+]
+
+# create complete model
+model = Sequential(feature_layer1 + feature_layer2 + classification_layers)
+
+# train model for 5-digit classification [0..4]
+train_model(model,
+            (x_train, y_train),
+            (x_test, y_test))
+
+# freeze feature layers and rebuild model
+# for l in feature_layers:
+#     l.trainable = False
+
+# transfer: train dense layers for new classification task [5..9]
+# train_model(model,
+#             (x_train, y_train),
+#             (x_test, y_test))
+
+model.save('model_predictFutureCandle')
