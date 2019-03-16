@@ -11,11 +11,17 @@ from keras.models import load_model
 #initalizes the tensorflow graph (needed for tf to work with flask)
 app = Flask(__name__)
 CORS(app)
-
 def init():
-    global model,graph
+    global model_aud_usd,model_eur_usd,model_gbp_usd,model_nzd_usd,model_usd_cad,model_usd_chf,model_usd_jpy,graph
     # load the pre-trained Keras model
-    model = load_model('model_predictFutureCandle.model')
+    model_aud_usd = load_model('model_predictFutureCandle_aud_usd.model')
+    model_eur_usd = load_model('model_predictFutureCandle_eur_usd.model')
+    model_gbp_usd = load_model('model_predictFutureCandle_gbp_usd.model')
+    model_nzd_usd = load_model('model_predictFutureCandle_nzd_usd.model')
+    model_usd_cad = load_model('model_predictFutureCandle_usd_cad.model')
+    model_usd_chf = load_model('model_predictFutureCandle_usd_chf.model')
+    model_usd_jpy = load_model('model_predictFutureCandle_usd_jpy.model')
+
     graph = tf.get_default_graph()
 
 # end point for getting all the historic data for a specified pair
@@ -27,11 +33,47 @@ def get_AllHistorical(curr_Pair):
 @app.route('/prediction/<string:curr_Pair>', methods=['GET'])
 def get_Prediction(curr_Pair):
     inputFeature = operationsAPI.getCurrData(curr_Pair)
-    with graph.as_default():
-        raw_prediction = model.predict(inputFeature)
+    if curr_Pair == 'aud_usd':
+        with graph.as_default():
+            raw_prediction = model_aud_usd.predict(inputFeature)
+        prediction = pd.DataFrame(raw_prediction, columns=["p_open","p_close","p_high","p_low"])
+        return prediction.to_json(orient='records')
     
-    prediction = pd.DataFrame(raw_prediction, columns=["p_open","p_close","p_high","p_low"])
-    return prediction.to_json(orient='records')
+    elif curr_Pair == 'eur_usd':
+        with graph.as_default():
+            raw_prediction = model_eur_usd.predict(inputFeature)
+        prediction = pd.DataFrame(raw_prediction, columns=["p_open","p_close","p_high","p_low"])
+        return prediction.to_json(orient='records')
+    
+    elif curr_Pair == 'gbp_usd':
+        with graph.as_default():
+            raw_prediction = model_gbp_usd.predict(inputFeature)
+        prediction = pd.DataFrame(raw_prediction, columns=["p_open","p_close","p_high","p_low"])
+        return prediction.to_json(orient='records')
+    
+    elif curr_Pair == 'nzd_usd':
+        with graph.as_default():
+            raw_prediction = model_nzd_usd.predict(inputFeature)
+        prediction = pd.DataFrame(raw_prediction, columns=["p_open","p_close","p_high","p_low"])
+        return prediction.to_json(orient='records')
+    
+    elif curr_Pair == 'usd_cad':
+        with graph.as_default():
+            raw_prediction = model_usd_cad.predict(inputFeature)
+        prediction = pd.DataFrame(raw_prediction, columns=["p_open","p_close","p_high","p_low"])
+        return prediction.to_json(orient='records')
+    
+    elif curr_Pair == 'usd_chf':
+        with graph.as_default():
+            raw_prediction = model_usd_chf.predict(inputFeature)
+        prediction = pd.DataFrame(raw_prediction, columns=["p_open","p_close","p_high","p_low"])
+        return prediction.to_json(orient='records')
+    
+    elif curr_Pair == 'usd_jpy':
+        with graph.as_default():
+            raw_prediction = model_usd_jpy.predict(inputFeature)
+        prediction = pd.DataFrame(raw_prediction, columns=["p_open","p_close","p_high","p_low"])
+        return prediction.to_json(orient='records')
 
 #test api end point
 @app.route("/")
