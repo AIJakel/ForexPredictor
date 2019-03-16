@@ -29,5 +29,5 @@ def getAllHistorical(curr_Pair):
     return df.to_json(orient='records')
 
 #function called by flask to get the prediction for the next hour.
-def getPredictionData(curr_Pair):
+def getCurrData(curr_Pair):
     return getPredictionData.prepareData(curr_Pair)
