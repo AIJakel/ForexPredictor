@@ -33,8 +33,8 @@ def get_Prediction(curr_Pair):
 #test api end point
 @app.route("/")
 def helloWorld():
-    return jsonify({"Status":"Test"})
+    return "Hellow World" #jsonify({"Status":"Test"})
 
 if __name__ == "__main__":
     init()
-    app.run(threaded=True, debug=True)
+    app.run(threaded=True, debug=True, host='0.0.0.0')
