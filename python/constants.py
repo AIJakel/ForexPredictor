@@ -1,3 +1,4 @@
+#this file contains a list of constants
 TRADED_PAIRS = {
     "USD/JPY":'usd_jpy',
     "EUR/USD":'eur_usd',

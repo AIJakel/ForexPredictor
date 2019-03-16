@@ -13,6 +13,7 @@ import time
 import constants
 import datetime
 
+#this file is responsible for training the model
 
 batch_size = 128
 epochs = 20

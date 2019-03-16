@@ -3,7 +3,9 @@ import pandas as pd
 from sqlalchemy import create_engine
 import constants
 import getPredictionData
+#this file contains all the operations called upon by the API
 
+#connects to the database
 db = constants.DATABASES['local']
 engine_string = "postgresql+psycopg2://{user}:{password}@{host}:{port}/{database}".format(
     user =      db['USER'],
@@ -13,6 +15,7 @@ engine_string = "postgresql+psycopg2://{user}:{password}@{host}:{port}/{database
     database =  db['NAME']
 )
 
+#function called by flask to get all the historic data 
 def getAllHistorical(curr_Pair):
     engine = create_engine(engine_string)
     data = pd.read_sql_table(curr_Pair, engine) #TODO change table name to a var
@@ -25,5 +28,6 @@ def getAllHistorical(curr_Pair):
 
     return df.to_json(orient='records')
 
+#function called by flask to get the prediction for the next hour.
 def getPredictionData(curr_Pair):
     return getPredictionData.prepareData(curr_Pair)
