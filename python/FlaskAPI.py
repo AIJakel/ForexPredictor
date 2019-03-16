@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-import operationsAPI, predictWithTransform
+import operationsAPI, getPredictionData
 import pandas as pd
 import numpy as np
 import tensorflow as tf
@@ -23,7 +23,7 @@ def get_AllHistorical(curr_Pair):
 #end point for getting the prediction for the next hour for a specified pair
 @app.route('/prediction/<string:curr_Pair>', methods=['GET'])
 def get_Prediction(curr_Pair):
-    inputFeature = operationsAPI.getPredictionData(curr_Pair)
+    inputFeature = operationsAPI.getCurrData(curr_Pair)
     with graph.as_default():
         raw_prediction = model.predict(inputFeature)
     

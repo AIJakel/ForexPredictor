@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+<<<<<<< HEAD
 import axios from 'axios';
 import logo from './logo.svg';
 import './App.css';
@@ -31,12 +32,19 @@ class App extends Component {
     // .catch((err) => console.log("error"));
   }
 
+=======
+import logo from './logo.svg';
+import './App.css';
+
+class App extends Component {
+>>>>>>> master
   render() {
     return (
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <p>
+<<<<<<< HEAD
             <code>Site under construction!</code>.
           </p>
           <button onClick={this.handleClick}>
@@ -45,6 +53,10 @@ class App extends Component {
           <button onClick={this.test1}>
             button test!
           </button>
+=======
+            <code>Site under construction</code>.
+          </p>
+>>>>>>> master
         </header>
       </div>
     );
