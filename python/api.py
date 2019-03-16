@@ -6,6 +6,7 @@ import io
 import tokens
 import constants
 
+#This file is responsible for pulling new data into the database
 print("Connecting to API..")
 con = fxcmpy.fxcmpy(access_token=tokens.FXCM_API_KEY, log_level='error', server='demo')
 print("Connection Status: " + con.connection_status)

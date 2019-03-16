@@ -1,23 +1,19 @@
 from tensorflow.keras.callbacks import TensorBoard
 import tensorflow as tf
-from keras.layers import Dropout, Activation 
-from sqlalchemy import create_engine
-from sklearn.preprocessing import StandardScaler
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import time
-import constants
-from sklearn.preprocessing import normalize
-import datetime
 import keras
 from keras.datasets import mnist
 from keras.models import Sequential
-from keras.layers import Dense, Dropout, Activation, Flatten
-from keras.layers import Conv2D, MaxPooling2D
+from keras.layers import Dense, Dropout, Activation
 from keras import backend as K
-from sklearn.preprocessing import StandardScaler
+from sqlalchemy import create_engine
+from sklearn.preprocessing import StandardScaler, normalize
+import pandas as pd
+import numpy as np
+import constants
 
+#this file is responsible for getting and formatting the data used to create a new prediction.
+
+#connect to the database and load in the model
 db = constants.DATABASES['local']
 engine_string = "postgresql+psycopg2://{user}:{password}@{host}:{port}/{database}".format(
     user =      db['USER'],
@@ -28,12 +24,14 @@ engine_string = "postgresql+psycopg2://{user}:{password}@{host}:{port}/{database
 )
 model = tf.keras.models.load_model('model_predictFutureCandle.model') 
 
+#function to normalize inputs
 def scale_linear_bycolumn(rawpoints, high=1.0, low=0.0):
     mins = np.min(rawpoints, axis=0)
     maxs = np.max(rawpoints, axis=0)
     rng = maxs - mins
     return high - (((high - low) * (maxs - rawpoints)) / rng)
 
+#pulls in the data for the next prediction and formats it.
 def prepareData(curr_Pair):
     #pull in the data and format it by taking the mean between the asking and bid price
     engine = create_engine(engine_string)
@@ -45,6 +43,7 @@ def prepareData(curr_Pair):
     df['high'] = data[['bidhigh', 'askhigh']].mean(axis=1)
     df['low'] = data[['bidlow', 'asklow']].mean(axis=1)
 
+    #create dataframe to hold training sets
     transformedDataSet = pd.DataFrame(columns=["o5","c5","h5","l5","o4","c4","h4","l4","o3","c3","h3","l3","o2","c2","h2","l2","o1","c1","h1","l1"])
 
     #convert the data frame into data sets for training and testing
@@ -57,7 +56,8 @@ def prepareData(curr_Pair):
                 df.loc[index-2,"open"],df.loc[index-2,"close"],df.loc[index-2,"high"],df.loc[index-2,"low"],
                 df.loc[index-1,"open"],df.loc[index-1,"close"],df.loc[index-1,"high"],df.loc[index-1,"low"]
             ]         
-            
+    
+    # ensures the data is in the right format to be used in the neural net
     transformedDataSet = transformedDataSet.reset_index(drop=True)
     transformedDataSet = transformedDataSet.values    
     transformedDataSet = scale_linear_bycolumn(transformedDataSet)   

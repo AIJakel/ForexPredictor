@@ -1,25 +1,24 @@
-from tensorflow.keras.callbacks import TensorBoard
-import tensorflow as tf
-from keras.layers import Dropout, Activation 
-from sqlalchemy import create_engine
-from sklearn.preprocessing import StandardScaler
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import time
-import constants
-from sklearn.preprocessing import normalize
-import datetime
 import keras
 from keras.models import Sequential
-from keras.layers import Dense, Dropout, Activation, Flatten
-from keras.layers import Conv2D, MaxPooling2D
+from keras.layers import Dense, Dropout, Activation
 from keras import backend as K
+import tensorflow as tf
+from tensorflow.keras.callbacks import TensorBoard
+from sqlalchemy import create_engine
+from sklearn.preprocessing import StandardScaler, normalize
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+import time
+import constants
+import datetime
+
 
 batch_size = 128
 epochs = 20
 now = datetime.datetime.now
 
+# function to normalize padas data frame
 def scale_linear_bycolumn(rawpoints, high=1.0, low=0.0):
     mins = np.min(rawpoints, axis=0)
     maxs = np.max(rawpoints, axis=0)
@@ -50,6 +49,7 @@ df['close'] = data[['bidclose', 'askclose']].mean(axis=1)
 df['high'] = data[['bidhigh', 'askhigh']].mean(axis=1)
 df['low'] = data[['bidlow', 'asklow']].mean(axis=1)
 
+#create dataframe to hold training sets
 transformedDataSet = pd.DataFrame(columns=["o5","c5","h5","l5","o4","c4","h4","l4","o3","c3","h3","l3","o2","c2","h2","l2","o1","c1","h1","l1","actual_open","actual_close","actual_high","actual_low"])
 
 #convert the data frame into data sets for training and testing
@@ -85,17 +85,12 @@ y_test = y_test.values
 x_train = scale_linear_bycolumn(x_train)
 x_test = scale_linear_bycolumn(x_test)
 
-
-#model.fit(x_train, y_train, epochs=20, callbacks=[tensorboard], validation_data=(x_test,y_test))
-
-
-#GOOD TILL HERE!!!
+#function that handles training the model
 def train_model(model, train, test):
     opt = keras.optimizers.Adam(lr=0.002)
     model.compile(loss='mean_absolute_percentage_error',
                   optimizer=opt,
                   metrics=['accuracy'])
-#batch_size=batch_size,
     t = now()
     model.fit(x_train, y_train,
               
@@ -103,18 +98,10 @@ def train_model(model, train, test):
               verbose=0,
               callbacks=[tensorboard],
               validation_data=(x_test, y_test))
-    #print('Training time: %s' % (now() - t))
     score = model.evaluate(x_test, y_test, verbose=0)
     prediction = model.predict(x_test,verbose=0)
-    #print('Test score:', score[0])
-    #print('Test accuracy:', score[1])
 
-    # prediction.plot()
-    # plt.show()
-
-    # x_pred2.plot()
-    # plt.show()
-
+    #graphs the predicted prices vs the actual prices (activate by uncommenting plt.show)
     prediction = pd.DataFrame(data=prediction)
     fig, ax = plt.subplots()
     ax2 = ax.twinx()
@@ -122,16 +109,19 @@ def train_model(model, train, test):
     x_pred2.plot(ax=ax2, ls="--")
     #plt.show()
 
+#first hidden layer
 feature_layer1 = [
     Dense(20, input_shape=(20,)),
     Activation('relu')
 ]
 
+#second hidden layer
 feature_layer2 = [
     Dense(25),
     Activation('relu')
 ]
 
+#output layer
 classification_layers = [
     Dense(4)
 ]
@@ -143,15 +133,6 @@ model = Sequential(feature_layer1 + feature_layer2 + classification_layers)
 train_model(model,
             (x_train, y_train),
             (x_test, y_test))
-
-# freeze feature layers and rebuild model
-# for l in feature_layers:
-#     l.trainable = False
-
-# transfer: train dense layers for new classification task [5..9]
-# train_model(model,
-#             (x_train, y_train),
-#             (x_test, y_test))
 
 model.save('model_predictFutureCandle.model')
 
