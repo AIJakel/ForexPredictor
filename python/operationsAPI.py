@@ -2,6 +2,7 @@ import requests
 import pandas as pd
 from sqlalchemy import create_engine
 import constants
+import datetime
 import getPredictionData
 #this file contains all the operations called upon by the API
 
@@ -21,11 +22,12 @@ def getAllHistorical(curr_Pair):
     data = pd.read_sql_table(curr_Pair, engine) #TODO change table name to a var
     df = pd.DataFrame
     df = data[['date']].copy()
+    df['date'] = pd.to_datetime(df['date'],unit='s')
     df['open'] =  data[['bidopen', 'askopen']].mean(axis=1)
     df['close'] = data[['bidclose', 'askclose']].mean(axis=1)
     df['high'] = data[['bidhigh', 'askhigh']].mean(axis=1)
     df['low'] = data[['bidlow', 'asklow']].mean(axis=1)
-
+    
     return df.to_json(orient='records')
 
 #function called by flask to get the prediction for the next hour.
