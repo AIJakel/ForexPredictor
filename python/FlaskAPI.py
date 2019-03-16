@@ -27,7 +27,7 @@ def get_Prediction(curr_Pair):
     with graph.as_default():
         raw_prediction = model.predict(inputFeature)
     
-    prediction = pd.DataFrame(raw_prediction, columns=["1","2","3","4"])
+    prediction = pd.DataFrame(raw_prediction, columns=["p_open","p_close","p_high","p_low"])
     return prediction.to_json(orient='records')
 
 #test api end point
