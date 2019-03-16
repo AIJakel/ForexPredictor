@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 import operationsAPI, getPredictionData
 import pandas as pd
 import numpy as np
@@ -9,6 +10,8 @@ from keras.models import load_model
 
 #initalizes the tensorflow graph (needed for tf to work with flask)
 app = Flask(__name__)
+CORS(app)
+
 def init():
     global model,graph
     # load the pre-trained Keras model
@@ -33,8 +36,8 @@ def get_Prediction(curr_Pair):
 #test api end point
 @app.route("/")
 def helloWorld():
-    return "Hellow World" #jsonify({"Status":"Test"})
+    return jsonify({"Status":"Test"})
 
 if __name__ == "__main__":
     init()
-    app.run(threaded=True, debug=True, host='0.0.0.0')
+    app.run(threaded=True, debug=True)

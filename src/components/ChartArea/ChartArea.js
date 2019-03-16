@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
-import Chart from './components/ChartArea/Chart';
-import { getData } from "./components/ChartArea/utils"
+import Chart from './Chart';
+import { getData } from "./utils"
 
 import { TypeChooser } from "react-stockcharts/lib/helper";
 
@@ -16,7 +16,9 @@ class ChartComponent extends React.Component {
 			return <div>Loading...</div>
 		}
 		return (
-      <Chart data={this.state.data} />
+			<TypeChooser>
+				{type => <Chart type={type} data={this.state.data} />}
+			</TypeChooser>
 		)
 	}
 }
@@ -26,4 +28,3 @@ render(
 	document.getElementById("root")
 );
 
-export default ChartComponent;
