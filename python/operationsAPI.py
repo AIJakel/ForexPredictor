@@ -25,7 +25,5 @@ def getAllHistorical(curr_Pair):
 
     return df.to_json(orient='records')
 
-def getPrediction(curr_Pair):
+def getPredictionData(curr_Pair):
     return predictWithTransform.prepareData(curr_Pair)
-    
-# print(getPrediction("usd_jpy"))
