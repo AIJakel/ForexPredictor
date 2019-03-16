@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-import operationsAPI, predictWithTransform
+import operationsAPI, getPredictionData
 import pandas as pd
 import numpy as np
 import tensorflow as tf
