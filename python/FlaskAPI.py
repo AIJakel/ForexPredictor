@@ -34,6 +34,10 @@ def init():
 def get_AllHistorical(curr_Pair):
     return operationsAPI.getAllHistorical(curr_Pair)
 
+@app.route('/getDate/<string:curr_Pair>', methods=['GET'])
+def get_Date(curr_Pair):
+    return operationsAPI.getNowDateForCurr(curr_Pair)
+
 #end point for getting the prediction for the next hour for a specified pair
 @app.route('/prediction/<string:curr_Pair>', methods=['GET'])
 def get_Prediction(curr_Pair):

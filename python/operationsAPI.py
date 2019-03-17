@@ -33,3 +33,12 @@ def getAllHistorical(curr_Pair):
 #function called by flask to get the prediction for the next hour.
 def getCurrData(curr_Pair):
     return getPredictionData.prepareData(curr_Pair)
+
+def getNowDateForCurr(curr_Pair):
+    engine = create_engine(engine_string)
+    data = pd.read_sql_table(curr_Pair, engine) #TODO change table name to a var
+    df = pd.DataFrame
+    df = data[['date']].copy()
+    df['date'] = pd.to_datetime(df['date'],unit='s')
+    df = df[-1:]
+    return df.to_json(orient='records')
