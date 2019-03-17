@@ -12,10 +12,12 @@
   font-weight: 500;
   font-size: 50px;
   padding-bottom: 50px;
+  color: #3f3844;
 }
 
 .chart_title {
   font-size: 25px;
+  color: #3f3844;
 }
 
 .header {
@@ -25,6 +27,7 @@
   margin-top: 25px;
   margin-bottom: 25px;
   font-weight: 600;
+  color: #3f3844;
 }
 
 .value {
@@ -34,6 +37,7 @@
 .caption {
   text-align: center;
   font-weight: bold;
+  color: #3f3844;
 }
 
 .open_card {
@@ -41,9 +45,7 @@
   flex-direction: column;
   align-self: flex-end;
   order: 1;
-  width: 250px;
-  border: 1px solid  #eae9e7;
-  background-color: #eae9e7;
+  width: 252px;
 }
 
 .close_card {
@@ -51,10 +53,8 @@
   flex-direction: column;
   align-self: flex-end;
   order: 2;
-  width: 250px;
-  border: 1px solid ##eae9e7;
+  width: 252px;
   margin-left: 50px;
-  background-color: #eae9e7;
 }
 
 .high_card {
@@ -62,10 +62,8 @@
   flex-direction: column;
   align-self: flex-end;
   order: 3;
-  width: 250px;
-  border: 1px solid ##eae9e7;
+  width: 252px;
   margin-left: 50px;
-  background-color: #eae9e7;
 }
 
 .low_card {
@@ -73,10 +71,8 @@
   flex-direction: column;
   align-self: flex-end;
   order: 4;
-  width: 250px;
-  border: 1px solid ##eae9e7;
+  width: 252px;
   margin-left: 50px;
-  background-color: #eae9e7;
 }
 
 
@@ -94,7 +90,7 @@
 }
 
 .App-header {
-  background-color: #f6f6f6;
+  background-color: #eeeeee;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
