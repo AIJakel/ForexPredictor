@@ -27,12 +27,10 @@ class CandleStickStockScaleChart extends React.Component {
 			xAccessor(last(data)),
 			xAccessor(data[data.length - 100])
 		];
-
 		return (
-			<ChartCanvas height={400}
+			<ChartCanvas height={500}
 				ratio={ratio}
 				width={width}
-				margin={{ left: 50, right: 50, top: 10, bottom: 30 }}
 				type={type}
 				seriesName="MSFT"
 				data={data}

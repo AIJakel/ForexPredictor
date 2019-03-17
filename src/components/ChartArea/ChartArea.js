@@ -1,30 +1,27 @@
 import React from 'react';
-import { render } from 'react-dom';
+//import { render } from 'react-dom';
 import Chart from './Chart';
-import { getData } from "./utils"
+//import { getData } from "./utils"
 
-import { TypeChooser } from "react-stockcharts/lib/helper";
 
 class ChartComponent extends React.Component {
-	componentDidMount() {
-		getData().then(data => {
-			this.setState({ data })
-		})
-	}
 	render() {
-		if (this.state == null) {
+    const {Data} = this.props;
+    console.log(Data);
+		if (Data == null || Data === undefined) {
 			return <div>Loading...</div>
 		}
 		return (
-			<TypeChooser>
-				{type => <Chart type={type} data={this.state.data} />}
-			</TypeChooser>
+		  <Chart data={Data} />
 		)
 	}
 }
 
+/*
 render(
 	<ChartComponent />,
 	document.getElementById("root")
 );
+*/
 
+export default ChartComponent;
