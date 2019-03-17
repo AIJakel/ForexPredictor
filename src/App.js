@@ -15,10 +15,7 @@ class App extends Component {
     super(props);
     this.state = {
       activeChart: "usd_jpy",
-      popen: "",
-      pclose: "",
-      phigh: "",
-      plow: "",
+      date: "",
       historical: null,
       pusd_jpy: null,
       pusd_cad: null,
@@ -42,6 +39,7 @@ class App extends Component {
   componentDidMount() {
     this.getHistorical();
     this.getPrediction();
+    this.getDate();
   }
 
   getPrediction(pair="usd_jpy") {
@@ -64,8 +62,9 @@ class App extends Component {
 
   formatDate(date){
     if (date !== undefined) {
-      var options = {};
-      var tmp = new Date(data[0].date);
+      var options = {year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric'};
+      var tmp = new Date(date[0].date);
+      tmp.setHours(tmp.getHours()+1);
       var d = tmp.toLocaleDateString("en-US", options);
       this.setState({date: d});
     }
@@ -117,12 +116,13 @@ class App extends Component {
   }
 
   renderCards(chart) {
+    const { date } = this.state;
     var x = "p"+chart
     if (this.state[x] !== null){
       return(
         <div className="main_card">
         <div className="header">
-          {"Prediction for: "+2017-12-08 12:00}
+          {"Prediction for: "+date}
         </div>
         <div className="open_card">
           <div className="value">{"$"+this.state[x].open}</div>
@@ -157,7 +157,7 @@ class App extends Component {
     var pair = e.target.id.toLowerCase().replace("/", "_");
     this.setState({activeChart: pair});
     this.getHistorical(pair);
-
+    this.getDate(pair);
     var ppair = "p"+pair;
     if (this.state[ppair] === null) {
 
