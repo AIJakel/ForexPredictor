@@ -29,3 +29,6 @@ python/tokens\.py
 python/__pycache__/
 *.pyc
 python/__pycache__/createDBCon.cpython-37.pyc
+package-lock.json
+package.json
+package-lock.json
