@@ -7,7 +7,7 @@ import getPredictionData
 #this file contains all the operations called upon by the API
 
 #connects to the database
-db = constants.DATABASES['local']
+db = constants.DATABASES['production']
 engine_string = "postgresql+psycopg2://{user}:{password}@{host}:{port}/{database}".format(
     user =      db['USER'],
     password =  db['PASSWORD'],

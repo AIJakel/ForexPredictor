@@ -14,7 +14,7 @@ import constants
 #this file is responsible for getting and formatting the data used to create a new prediction.
 
 #connect to the database and load in the model
-db = constants.DATABASES['local']
+db = constants.DATABASES['production']
 engine_string = "postgresql+psycopg2://{user}:{password}@{host}:{port}/{database}".format(
     user =      db['USER'],
     password =  db['PASSWORD'],

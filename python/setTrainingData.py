@@ -31,7 +31,7 @@ NAME = "test{}".format(int(time.time())) #TODO change to class and x is an input
 tensorboard = TensorBoard(log_dir="tensorboard_log/{}".format(NAME))
 
 #connect to db
-db = constants.DATABASES['local']
+db = constants.DATABASES['production']
 for key, value in constants.TRADED_PAIRS.items():
     engine_string = "postgresql+psycopg2://{user}:{password}@{host}:{port}/{database}".format(
             user =      db['USER'],

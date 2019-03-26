@@ -8,7 +8,7 @@ import tokens
 import io
 
 con = fxcmpy.fxcmpy(access_token=tokens.FXCM_API_KEY, log_level='error', server='demo')
-db = constants.DATABASES['local']
+db = constants.DATABASES['production']
 now = datetime.datetime.now()
 
 #split
