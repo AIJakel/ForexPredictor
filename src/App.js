@@ -4,7 +4,7 @@ import ButtonList from "./components/ButtonList/ButtonList";
 import axios from 'axios';
 import './App.css';
 
-const serverURL = 'http://127.0.0.1:5000/';
+const serverURL = 'https://forexpredictor-backend.herokuapp.com/';
 const http = axios.create({
   baseURL: serverURL,
 });
