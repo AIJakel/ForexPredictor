@@ -18,10 +18,10 @@ DATABASES = {
         'PORT':5432
     },
     'production':{
-        'NAME': 'd7h0bl2kg6v3c2',
-        'USER': 'nqfromejvqdewm',
-        'PASSWORD':'d4268ae3afeffc9507eb9537d7ce4c53a82e4a0578a1f16b41ea4d489bad4686',
-        'HOST':'ec2-54-83-196-179.compute-1.amazonaws.com',
+        'NAME': 'dfrc7rmuva7l3r',
+        'USER': 'pinuludhlgaezr',
+        'PASSWORD':'1d42f62958829a1aa743d39ad84b4c95f54d16c6d11014c2e971b231b5dfa18d',
+        'HOST':'ec2-174-129-10-235.compute-1.amazonaws.com',
         'PORT':5432
     }
 }

@@ -11,10 +11,10 @@ print("Connecting to API..")
 con = fxcmpy.fxcmpy(access_token=tokens.FXCM_API_KEY, log_level='error', server='demo')
 print("Connection Status: " + con.connection_status)
 data = pandas.DataFrame()
-db = constants.DATABASES['local']
+db = constants.DATABASES['production']
 print("Writing data to tables...")
 for key, value in constants.TRADED_PAIRS.items():
-    data = con.get_candles(key, period='H1', number=10000)
+    data = con.get_candles(key, period='H1', number=1000)
 
     engine_string = "postgresql+psycopg2://{user}:{password}@{host}:{port}/{database}".format(
         user =      db['USER'],
