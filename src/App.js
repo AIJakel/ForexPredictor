@@ -84,7 +84,7 @@ class App extends Component {
     if(data !== undefined)
     {
       var final = [];
-      for (var i = 0; i < 10000; i++) {
+      for (var i = 0; i < Object.keys(data).length; i++) {
         var d = new Date(data[i].date);
         var o = data[i].open;
         var c = data[i].close;
