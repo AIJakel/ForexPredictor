@@ -124,10 +124,6 @@ class App extends Component {
         <div className="header">
           {"Prediction for: "+date}
         </div>
-        <div className="open_card">
-          <div className="value">{"$"+this.state[x].open}</div>
-          <div className="caption">OPEN</div>
-        </div>
         <div className="close_card">
           <div className="value">{"$"+this.state[x].close}</div>
           <div className="caption">CLOSE</div>
