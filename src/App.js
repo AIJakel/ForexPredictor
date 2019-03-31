@@ -4,7 +4,7 @@ import ButtonList from "./components/ButtonList/ButtonList";
 import axios from 'axios';
 import './App.css';
 
-const serverURL = 'http://3.17.193.216';
+const serverURL = 'http://18.221.209.170';
 const http = axios.create({
   baseURL: serverURL,
 });
